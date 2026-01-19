@@ -18,7 +18,8 @@ Automate incident response actions
 Provide dashboards and reports for security teams
 Reduce manual effort and response time during security incidents
 The system is intended for use by Security Analysts, SOC teams, and System Administrators.
-Functional Requirements
+
+Functional Requirements:-
 3.1 Alert Ingestion
 
 The system shall collect alerts from multiple security tools.
