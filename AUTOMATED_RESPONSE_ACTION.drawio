@@ -1,0 +1,52 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.3.4">
+  <diagram name="Page-1" id="VRevl04pJFmON8x_tTo9">
+    <mxGraphModel dx="1042" dy="562" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="300" width="310" x="210" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="SECURITY ANALYST" vertex="1">
+          <mxGeometry height="100" width="60" x="50" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-3" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="BLOCK MALICIOUS&lt;div&gt;IP ADDRESS&amp;nbsp;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="230" x="240" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-4" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="ISOLATE COMPROMISED END POINT" vertex="1">
+          <mxGeometry height="80" width="240" x="240" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-5" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="SEND NOTIFICATION" vertex="1">
+          <mxGeometry height="80" width="240" x="240" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-6" edge="1" parent="1" source="xniyBtOfP9mc2YXwv_P2-3" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.475;entryY=-0.002;entryDx=0;entryDy=0;entryPerimeter=0;" target="xniyBtOfP9mc2YXwv_P2-4" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-7" edge="1" parent="1" source="xniyBtOfP9mc2YXwv_P2-4" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="xniyBtOfP9mc2YXwv_P2-5" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-8" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Actor" vertex="1">
+          <mxGeometry height="90" width="60" x="335" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-9" edge="1" parent="1" source="xniyBtOfP9mc2YXwv_P2-5" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="xniyBtOfP9mc2YXwv_P2-8" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="460" as="sourcePoint" />
+            <mxPoint x="360" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="xniyBtOfP9mc2YXwv_P2-10" edge="1" parent="1" source="xniyBtOfP9mc2YXwv_P2-2" style="endArrow=classic;html=1;rounded=0;exitX=0.75;exitY=0.1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="xniyBtOfP9mc2YXwv_P2-5" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="390" y="460" as="sourcePoint" />
+            <mxPoint x="440" y="410" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
