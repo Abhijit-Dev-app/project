@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SOAR Dashboard</title>
+</head>
+<body>
+
+<h2>SOAR Alert Dashboard</h2>
+<h4>Total Alerts: <span id="count"></span></h4>
+
+<table border="1">
+  <tr>
+    <th>Source</th>
+    <th>Type</th>
+    <th>Severity</th>
+    <th>Status</th>
+    <th>Time</th>
+  </tr>
+  <tbody id="alerts"></tbody>
+</table>
+
+<script>
+fetch("http://localhost:5000/api/alerts")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("count").innerText = data.length;
+
+    const table = document.getElementById("alerts");
+    data.forEach(alert => {
+      table.innerHTML += `
+        <tr>
+          <td>${alert.source}</td>
+          <td>${alert.type}</td>
+          <td>${alert.severity}</td>
+          <td>${alert.status}</td>
+          <td>${new Date(alert.created_at).toLocaleString()}</td>
+        </tr>
+      `;
+    });
+  });
+</script>
+
+</body>
+</html>
