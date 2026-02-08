@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SOAR Dashboard</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #f4f7f6; }
+    table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+    th { background-color: #333; color: white; }
+    /* Visual indicators for severity */
+    .HIGH { color: #d9534f; font-weight: bold; }
+    .MEDIUM { color: #f0ad4e; font-weight: bold; }
+    .LOW { color: #5bc0de; font-weight: bold; }
+    .CRITICAL { color: #ffffff; background-color: #d9534f; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<h2>SOAR Alert Dashboard</h2>
+<h4>Total Alerts: <span id="count">0</span></h4>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>Type</th>
+      <th>Severity</th>
+      <th>Status</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody id="alerts">
+    </tbody>
+</table>
+
+<script>
+  function updateDashboard() {
+    fetch("http://localhost:5000/api/alerts")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("count").innerText = data.length;
+        const table = document.getElementById("alerts");
+        
+        table.innerHTML = data.map(alert => `
+          <tr>
+            <td>${alert.source}</td>
+            <td>${alert.type}</td>
+            <td class="${alert.severity}">${alert.severity}</td>
+            <td>${alert.status}</td>
+            <td>${new Date(alert.created_at).toLocaleString()}</td>
+          </tr>
+        `).join('');
+      })
+      .catch(err => console.error("Update failed:", err));
+  }
+
+  setInterval(updateDashboard, 5000);
+  updateDashboard();
+</script>
+
+</body>
+</html>
