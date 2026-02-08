@@ -1,0 +1,28 @@
+1. Actors
+SOC Manager
+System Administator
+Security Analyst
+
+2. Use Cases
+Login and Authenticate
+Create new User Account
+Manage Roles and Permission
+Deactivate User
+Reset User Password
+View Dashboard
+Analyze Performance Metrics
+
+3. System Boundary
+
+
+Use Case Diagram Relationships
+1. Association Relationship
+
+2. Include Relationship
+Create new User Account includes Login/Authenticate
+Manage Roles & Permission include Login/Authenticate
+Generate Summary Report includes Login/Authenticate
+
+3. Extend Relationship
+Generate Incident Report extends Export report
+Generate Incident Report extends Report Delivery

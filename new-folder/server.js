@@ -6,6 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
 app.use("/api/alerts", alertRoutes);
 
 app.listen(5000, () => {

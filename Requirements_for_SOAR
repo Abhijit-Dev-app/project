@@ -1,3 +1,81 @@
+Introduction
+
+With the increasing complexity and frequency of cyber threats, organizations deploy multiple security tools such as intrusion detection systems, log management platforms, firewalls, and email security solutions to protect their infrastructure. However, these tools generate a large volume of security alerts that often require manual analysis and response, leading to delayed actions and inconsistent incident handling.
+
+The Security Orchestration, Automation, and Response (SOAR) platform presented in this project provides a centralized solution for automating security operations. The system integrates alerts from multiple security sources, normalizes and analyzes them using rule-based logic, and executes predefined response playbooks automatically. Key features of the platform include centralized alert management, automated incident response, playbook-driven workflows, threat intelligence validation, real-time notifications, and comprehensive logging and audit trails. A web-based dashboard offers clear visibility into security events and response actions.
+
+By reducing manual intervention and standardizing security responses, the proposed SOAR platform improves incident response efficiency, consistency, and overall security management.
+
+Purpose of this document.
+The purpose of this document is to formally specify the requirements for the Security Orchestration, Automation, and Response (SOAR) Platform.
+This platform aims to automate the detection, analysis, and response to cybersecurity incidents by integrating multiple security tools and executing predefined response workflows.
+
+Scope of the Application
+The SOAR platform will:
+Collect security alerts from multiple sources
+Correlate and prioritize incidents
+Automate incident response actions
+Provide dashboards and reports for security teams
+Reduce manual effort and response time during security incidents
+The system is intended for use by Security Analysts, SOC teams, and System Administrators.
+
+Functional Requirements:-
+3.1 Alert Ingestion
+
+The system shall collect alerts from multiple security tools.
+
+The system shall support API-based and log-based alert ingestion.
+
+The system shall normalize incoming alerts into a standard format.
+
+3.2 Incident Management
+
+The system shall group related alerts into a single incident.
+
+The system shall assign severity levels to incidents.
+
+The system shall allow analysts to manually update incident status.
+
+3.3 Automation Playbooks
+
+The system shall allow users to define automated response playbooks.
+
+The system shall execute playbooks based on incident type and severity.
+
+The system shall support conditional logic in playbooks.
+
+3.4 Automated Response Actions
+
+The system shall block malicious IP addresses automatically.
+
+The system shall isolate compromised endpoints.
+
+The system shall send notifications via email or messaging platforms.
+
+3.5 Dashboard and Visualization
+
+The system shall provide a real-time incident dashboard.
+
+The system shall display alert statistics and response timelines.
+
+The system shall allow filtering incidents by severity and date.
+
+3.6 Reporting
+
+The system shall generate incident response reports.
+
+The system shall export reports in PDF or CSV format.
+
+The system shall maintain historical incident data.
+
+3.7 User Management
+
+The system shall support user authentication.
+
+The system shall implement role-based access control.
+
+The system shall log all user activities for auditing.
+
 Non-Functional Requirements --Abhijit
 4.1 Performance
 

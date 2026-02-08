@@ -41,6 +41,7 @@
         document.getElementById("count").innerText = data.length;
         const table = document.getElementById("alerts");
         
+        // Use map for cleaner performance than += inside the loop
         table.innerHTML = data.map(alert => `
           <tr>
             <td>${alert.source}</td>
@@ -54,7 +55,9 @@
       .catch(err => console.error("Update failed:", err));
   }
 
+  // Refresh every 5 seconds
   setInterval(updateDashboard, 5000);
+  // Initial call to load data immediately
   updateDashboard();
 </script>
 
