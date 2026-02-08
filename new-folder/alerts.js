@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const db = require("../db");
 
-// Dashboard: Get all alerts
 router.get("/", (req, res) => {
   db.query("SELECT * FROM alerts ORDER BY created_at DESC", (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -10,7 +9,6 @@ router.get("/", (req, res) => {
   });
 });
 
-// Ingestion: Receive alert (Simulating Sentinel)
 router.post("/ingest", (req, res) => {
   const { source, type, severity, message } = req.body;
   const sql = "INSERT INTO alerts (source, type, severity, message, status) VALUES (?, ?, ?, ?, 'OPEN')";
