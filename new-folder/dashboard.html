@@ -1,64 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>SOAR Dashboard</title>
-  <style>
-    body { font-family: sans-serif; padding: 20px; background-color: #f4f7f6; }
-    table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; }
-    th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-    th { background-color: #333; color: white; }
-    /* Visual indicators for severity */
-    .HIGH { color: #d9534f; font-weight: bold; }
-    .MEDIUM { color: #f0ad4e; font-weight: bold; }
-    .LOW { color: #5bc0de; font-weight: bold; }
-    .CRITICAL { color: #ffffff; background-color: #d9534f; font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOAR | Cyber Sentinel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent-blue: #38bdf8;
+            --critical: #ff4757;
+            --high: #ffa502;
+            --medium: #eccc68;
+            --low: #70a1ff;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--accent-blue);
+            padding-left: 20px;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .count-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--accent-blue);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .table-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.05);
+            text-align: left;
+            padding: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--accent-blue);
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Severity Badges */
+        .severity {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .CRITICAL { background: rgba(255, 71, 87, 0.2); color: #ff4757; border: 1px solid #ff4757; }
+        .HIGH { background: rgba(255, 165, 2, 0.2); color: #ffa502; border: 1px solid #ffa502; }
+        .MEDIUM { background: rgba(236, 204, 104, 0.2); color: #eccc68; border: 1px solid #eccc68; }
+        .LOW { background: rgba(112, 161, 255, 0.2); color: #70a1ff; border: 1px solid #70a1ff; }
+
+        .status-pill {
+            opacity: 0.8;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
 
-<h2>SOAR Alert Dashboard</h2>
-<h4>Total Alerts: <span id="count">0</span></h4>
+<div class="dashboard-header">
+    <div>
+        <h2>SOAR Threat Command</h2>
+        <p style="opacity: 0.6; margin: 5px 0 0 0;">Real-time Incident Monitoring</p>
+    </div>
+    <div class="stat-card">
+        <span style="font-size: 0.8rem; display: block; margin-bottom: 5px;">ACTIVE INCIDENTS</span>
+        <span id="count" class="count-number">0</span>
+    </div>
+</div>
 
-<table border="1">
-  <thead>
-    <tr>
-      <th>Source</th>
-      <th>Type</th>
-      <th>Severity</th>
-      <th>Status</th>
-      <th>Time</th>
-    </tr>
-  </thead>
-  <tbody id="alerts">
-    </tbody>
-</table>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Source</th>
+                <th>Incident Type</th>
+                <th>Severity</th>
+                <th>Status</th>
+                <th>Detection Time</th>
+            </tr>
+        </thead>
+        <tbody id="alerts">
+            </tbody>
+    </table>
+</div>
 
 <script>
-  function updateDashboard() {
-    fetch("http://localhost:5000/api/alerts")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("count").innerText = data.length;
-        const table = document.getElementById("alerts");
-        
-        // Use map for cleaner performance than += inside the loop
-        table.innerHTML = data.map(alert => `
-          <tr>
-            <td>${alert.source}</td>
-            <td>${alert.type}</td>
-            <td class="${alert.severity}">${alert.severity}</td>
-            <td>${alert.status}</td>
-            <td>${new Date(alert.created_at).toLocaleString()}</td>
-          </tr>
-        `).join('');
-      })
-      .catch(err => console.error("Update failed:", err));
-  }
+    function updateDashboard() {
+        fetch("http://localhost:5000/api/alerts")
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("count").innerText = data.length.toString().padStart(2, '0');
+                const table = document.getElementById("alerts");
+                
+                table.innerHTML = data.map(alert => `
+                    <tr>
+                        <td style="font-weight: 600;">${alert.source}</td>
+                        <td>${alert.type}</td>
+                        <td><span class="severity ${alert.severity}">${alert.severity}</span></td>
+                        <td class="status-pill">${alert.status}</td>
+                        <td style="color: rgba(255,255,255,0.5)">${new Date(alert.created_at).toLocaleTimeString()}</td>
+                    </tr>
+                `).join('');
+            })
+            .catch(err => console.error("Update failed:", err));
+    }
 
-  // Refresh every 5 seconds
-  setInterval(updateDashboard, 5000);
-  // Initial call to load data immediately
-  updateDashboard();
+    setInterval(updateDashboard, 5000);
+    updateDashboard();
 </script>
 
 </body>
