@@ -30,11 +30,3 @@ Threat Hunting: Handling the flood of alerts, leaving them little time to hunt f
 
 Notification : Giving the information about various attacks and bloking the ips deleting the message and showing it on dashboard and sending the text/email message.
 
-# Contributers:
-Arzoo Kushwaha(2301053)
-
-Aryan Pandey(2301051)
-
-Abhay Yadav(2301007)
-
-Abhijit Sarukad(2301008)
