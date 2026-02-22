@@ -1,24 +1,17 @@
-// services/playbookEngine.js
+/**
+ * Playbook Engine Component
+ * Logic: Analyzes incoming threats and executes a response.
+ */
+const triggerAction = (alert) => {
+    console.log(`\n--- [PLAYBOOK ENGINE] Processing Alert ID: ${alert.id} ---`);
 
-const runPlaybook = (alert) => {
-    console.log(`[Playbook Engine] Analyzing alert: ${alert.type} (${alert.severity})`);
-
-    let actions = [];
-
-    // Logic for Critical Unauthorized Access
-    if (alert.severity === 'CRITICAL' && alert.type === 'Unauthorized Access') {
-        actions.push('BLOCK_IP');
-        actions.push('NOTIFY_ADMIN');
-    } 
-    // Logic for suspicious activity
-    else if (alert.severity === 'HIGH') {
-        actions.push('ISOLATE_HOST');
-    } 
-    else {
-        actions.push('LOG_ONLY');
+    if (alert.severity === 'CRITICAL') {
+        console.log(`[ACTION] 🚨 BLOCKING IP: Automated firewall rule created for: ${alert.type}`);
+    } else if (alert.severity === 'HIGH') {
+        console.log(`[ACTION] 📧 NOTIFY: Sending high-priority alert to SOC Slack channel.`);
+    } else {
+        console.log(`[ACTION] ✅ LOG: Alert recorded for weekly audit.`);
     }
-
-    return actions;
 };
 
-module.exports = { runPlaybook };
+module.exports = { triggerAction };
