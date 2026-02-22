@@ -1,0 +1,129 @@
+Deployment and Hosting Plan for SOAR Platform
+1. Host Site (Target Server / Cloud)
+
+For our SOAR (Security Orchestration, Automation, and Response) platform, we are planning to deploy the system on Amazon Web Services (AWS) because it provides scalability, reliability, and strong security features.
+
+Component-wise Hosting Plan
+
+Frontend (Dashboard UI – React): Hosted on AWS EC2 or AWS Amplify.
+
+Backend (Node.js API Server): Hosted on AWS EC2 instance.
+
+Database (MySQL): Hosted on AWS RDS or MongoDB Atlas.
+
+Automation Engine: Deployed on the same EC2 server inside the secure cloud network.
+
+Alert Logs & Storage: Stored securely in AWS S3.
+
+Email Notifications: Configured using AWS Simple Email Service (SES).
+
+Monitoring & Logs: Managed using AWS CloudWatch.
+
+All components will be deployed inside a Virtual Private Cloud (VPC) to ensure secure internal communication.
+
+2. Deployment Strategy
+Step 1: Server Configuration
+
+Create a cloud virtual machine (EC2 instance) with Linux operating system.
+
+Install required runtime environment for backend.
+
+Configure a web server (like Nginx) to manage incoming traffic.
+
+Open only required ports (HTTP/HTTPS).
+
+Restrict SSH access for security.
+
+Step 2: Backend Deployment
+
+Upload backend application files to the server.
+
+Install necessary dependencies.
+
+Configure environment variables for database and external tools.
+
+Start backend service and ensure it runs continuously.
+
+Connect backend with database and security tool APIs.
+
+Step 3: Frontend Deployment
+
+Build the frontend application.
+
+Host it either on AWS Amplify or serve it using the web server.
+
+Configure it to communicate securely with backend APIs using HTTPS.
+
+Step 4: Database Configuration
+
+Deploy managed database service (RDS or MongoDB Atlas).
+
+Enable automated backups.
+
+Restrict database access only to backend server.
+
+Enable encryption for stored data.
+
+Step 5: API Communication Setup
+
+Frontend communicates with backend using secure REST APIs.
+
+Backend communicates with:
+
+Security tools (IDS, firewall, email systems)
+
+Automation engine
+
+Database server
+
+Internal communication happens within private cloud network for security.
+
+3. Security Measures
+
+Since SOAR is a cybersecurity platform, strong security mechanisms are applied.
+
+1. Network Security
+
+Use cloud firewall (Security Groups) to allow only necessary ports.
+
+Restrict SSH access to authorized IP addresses.
+
+Deploy all servers inside private VPC.
+
+2. Encryption
+
+Use HTTPS with SSL certificates.
+
+Encrypt database at rest.
+
+Use secure TLS encryption for API communication.
+
+3. Authentication & Authorization
+
+Implement secure login system.
+
+Use Role-Based Access Control (RBAC):
+
+Admin
+
+Security Analyst
+
+Viewer
+
+Use token-based authentication for API access.
+
+4. Logging and Monitoring
+
+Log all user activities for auditing.
+
+Monitor server performance and suspicious activity using cloud monitoring services.
+
+Store historical incident data securely.
+
+5. Backup and Disaster Recovery
+
+Enable automatic database backups.
+
+Maintain daily backup of logs and reports.
+
+Prepare recovery plan in case of server failure.
