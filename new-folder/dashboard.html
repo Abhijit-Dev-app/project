@@ -2,171 +2,125 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOAR | Cyber Sentinel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>SOAR Dashboard</title>
     <style>
         :root {
-            --bg-dark: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --accent-blue: #38bdf8;
-            --critical: #ff4757;
-            --high: #ffa502;
-            --medium: #eccc68;
-            --low: #70a1ff;
+            --bg-dark: #0a0b10;
+            --accent-blue: #00d4ff;
+            --text-gray: #a0a0a0;
         }
 
         body {
-            margin: 0;
-            padding: 40px;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), 
-                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=2070');
-            background-size: cover;
-            background-attachment: fixed;
+            background-color: var(--bg-dark);
             color: white;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
         }
 
-        .dashboard-header {
+        .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            border-left: 4px solid var(--accent-blue);
-            padding-left: 20px;
+            border-bottom: 2px solid #1a1b25;
+            padding-bottom: 20px;
         }
 
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 2px;
-            margin: 0;
-            text-transform: uppercase;
-        }
+        h1 { color: var(--accent-blue); margin: 0; }
 
-        .stat-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 12px;
-            display: inline-block;
-        }
-
-        .count-number {
-            font-size: 2em;
-            font-weight: bold;
+        /* Report Button Style */
+        .report-btn {
+            background: transparent;
+            border: 1px solid var(--accent-blue);
             color: var(--accent-blue);
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            border-radius: 4px;
         }
 
-        .table-container {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        .report-btn:hover {
+            background: var(--accent-blue);
+            color: black;
+            box-shadow: 0 0 15px var(--accent-blue);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            background: #111218;
         }
 
-        th {
-            background: rgba(255, 255, 255, 0.05);
+        th, td {
+            padding: 15px;
             text-align: left;
-            padding: 18px;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            color: var(--accent-blue);
+            border-bottom: 1px solid #222;
         }
 
-        td {
-            padding: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.9rem;
-        }
+        th { background: #1a1b25; color: var(--accent-blue); }
 
-        tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        /* Severity Badges */
-        .severity {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            display: inline-block;
-        }
-
-        .CRITICAL { background: rgba(255, 71, 87, 0.2); color: #ff4757; border: 1px solid #ff4757; }
-        .HIGH { background: rgba(255, 165, 2, 0.2); color: #ffa502; border: 1px solid #ffa502; }
-        .MEDIUM { background: rgba(236, 204, 104, 0.2); color: #eccc68; border: 1px solid #eccc68; }
-        .LOW { background: rgba(112, 161, 255, 0.2); color: #70a1ff; border: 1px solid #70a1ff; }
-
-        .status-pill {
-            opacity: 0.8;
-            font-style: italic;
-        }
+        .severity-CRITICAL { color: #ff4d4d; font-weight: bold; }
+        .severity-HIGH { color: #ff944d; }
     </style>
 </head>
 <body>
 
-<div class="dashboard-header">
-    <div>
-        <h2>SOAR Threat Command</h2>
-        <p style="opacity: 0.6; margin: 5px 0 0 0;">Real-time Incident Monitoring</p>
+    <div class="header-container">
+        <h1>SOAR COMMAND CENTER</h1>
+        <button class="report-btn" onclick="downloadReport()">GENERATE INCIDENT REPORT</button>
     </div>
-    <div class="stat-card">
-        <span style="font-size: 0.8rem; display: block; margin-bottom: 5px;">ACTIVE INCIDENTS</span>
-        <span id="count" class="count-number">0</span>
-    </div>
-</div>
 
-<div class="table-container">
     <table>
         <thead>
             <tr>
+                <th>ID</th>
+                <th>Time</th>
                 <th>Source</th>
-                <th>Incident Type</th>
+                <th>Type</th>
                 <th>Severity</th>
                 <th>Status</th>
-                <th>Detection Time</th>
             </tr>
         </thead>
-        <tbody id="alerts">
+        <tbody id="alert-table">
             </tbody>
     </table>
-</div>
 
-<script>
-    function updateDashboard() {
-        fetch("http://localhost:5000/api/alerts")
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById("count").innerText = data.length.toString().padStart(2, '0');
-                const table = document.getElementById("alerts");
-                
-                table.innerHTML = data.map(alert => `
-                    <tr>
-                        <td style="font-weight: 600;">${alert.source}</td>
-                        <td>${alert.type}</td>
-                        <td><span class="severity ${alert.severity}">${alert.severity}</span></td>
-                        <td class="status-pill">${alert.status}</td>
-                        <td style="color: rgba(255,255,255,0.5)">${new Date(alert.created_at).toLocaleTimeString()}</td>
-                    </tr>
-                `).join('');
-            })
-            .catch(err => console.error("Update failed:", err));
-    }
+    <script>
+        // Function to trigger the report download from the API
+        function downloadReport() {
+            window.location.href = "http://localhost:5000/api/alerts/report";
+        }
 
-    setInterval(updateDashboard, 5000);
-    updateDashboard();
-</script>
+        // Function to fetch and display alerts
+        async function fetchAlerts() {
+            try {
+                const response = await fetch('http://localhost:5000/api/alerts');
+                const alerts = await response.json();
+                const tableBody = document.getElementById('alert-table');
+                tableBody.innerHTML = '';
 
+                alerts.forEach(alert => {
+                    const row = `
+                        <tr>
+                            <td>${alert.id}</td>
+                            <td>${new Date(alert.created_at).toLocaleString()}</td>
+                            <td>${alert.source}</td>
+                            <td>${alert.type}</td>
+                            <td class="severity-${alert.severity}">${alert.severity}</td>
+                            <td>${alert.status}</td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            } catch (err) {
+                console.error("Fetch error:", err);
+            }
+        }
+
+        // Refresh every 5 seconds
+        setInterval(fetchAlerts, 5000);
+        fetchAlerts();
+    </script>
 </body>
 </html>
