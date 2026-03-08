@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SOAR Dashboard</title>
+    <style>
+        :root { --bg:#0a0b10;--bg-card:#111218;--bg-header:#1a1b25;--blue:#00d4ff;--red:#ff4d4d;--orange:#ff944d;--yellow:#ffd166;--green:#06d6a0;--purple:#b388ff;--gray:#a0a0a0;--border:#222; }
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{background:var(--bg);color:white;font-family:'Segoe UI',sans-serif;padding:30px}
+        /* Header */
+        .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;border-bottom:2px solid var(--bg-header);padding-bottom:20px}
+        .header h1{color:var(--blue);font-size:1.8rem;letter-spacing:2px}
+        .header p{color:var(--gray);font-size:0.8rem;margin-top:4px}
+        .header-right{display:flex;align-items:center;gap:12px}
+        /* User badge */
+        .user-badge{display:flex;align-items:center;gap:10px;background:var(--bg-card);border:1px solid var(--border);padding:8px 14px;border-radius:8px}
+        .user-badge .name{font-size:0.85rem;color:white}
+        .user-badge .role-tag{font-size:0.7rem;padding:2px 8px;border-radius:10px;font-weight:bold}
+        .role-ADMIN{background:rgba(255,77,77,.15);color:#ff4d4d;border:1px solid #ff4d4d}
+        .role-SOC_MANAGER{background:rgba(255,148,77,.15);color:#ff944d;border:1px solid #ff944d}
+        .role-INCIDENT_RESPONSE{background:rgba(0,212,255,.15);color:#00d4ff;border:1px solid #00d4ff}
+        .role-SOC_ANALYST{background:rgba(6,214,160,.15);color:#06d6a0;border:1px solid #06d6a0}
+        .btn{background:transparent;border:1px solid;padding:8px 16px;cursor:pointer;font-size:0.8rem;border-radius:6px;transition:.2s;font-weight:bold;letter-spacing:1px}
+        .btn-blue{border-color:var(--blue);color:var(--blue)}.btn-blue:hover{background:var(--blue);color:#000}
+        .btn-red{border-color:var(--red);color:var(--red)}.btn-red:hover{background:var(--red);color:#000}
+        /* Stats */
+        .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:15px;margin-bottom:25px}
+        .stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:18px;text-align:center}
+        .stat-card .val{font-size:2rem;font-weight:bold}.stat-card .lbl{color:var(--gray);font-size:.7rem;margin-top:5px;letter-spacing:1px}
+        .stat-card.total .val{color:var(--blue)}.stat-card.critical .val{color:var(--red)}.stat-card.high .val{color:var(--orange)}.stat-card.open .val{color:var(--yellow)}.stat-card.resolved .val{color:var(--green)}
+        /* Flow */
+        .flow-diagram{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:25px}
+        .flow-diagram h3{color:var(--blue);margin-bottom:12px;font-size:.85rem;letter-spacing:1px}
+        .flow{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+        .flow-box{background:var(--bg-header);border:1px solid #333;padding:8px 12px;border-radius:6px;font-size:.78rem;text-align:center;min-width:100px}
+        .flow-box .icon{font-size:1rem;display:block;margin-bottom:3px}
+        .flow-box.hi{border-color:var(--blue);color:var(--blue)}
+        .arrow{color:var(--blue);font-size:1.1rem}
+        /* Tabs */
+        .tabs{display:flex;gap:5px;margin-bottom:20px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+        .tab{padding:10px 18px;cursor:pointer;color:var(--gray);font-size:.82rem;border-bottom:2px solid transparent;transition:.2s;letter-spacing:1px}
+        .tab:hover{color:white}.tab.active{color:var(--blue);border-bottom:2px solid var(--blue)}
+        .tab.admin-tab{color:#ff944d}.tab.admin-tab.active{color:#ff944d;border-bottom-color:#ff944d}
+        /* Filters */
+        .filters{display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap;align-items:center}
+        .filters label{color:var(--gray);font-size:.78rem}
+        .filters select{background:var(--bg-card);border:1px solid #333;color:white;padding:6px 10px;border-radius:4px;font-size:.82rem;cursor:pointer}
+        .refresh{margin-left:auto;color:var(--gray);font-size:.72rem}.refresh span{color:var(--green)}
+        /* Table */
+        .table-wrap{overflow-x:auto}
+        table{width:100%;border-collapse:collapse;background:var(--bg-card);border-radius:8px;overflow:hidden}
+        th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:.83rem}
+        th{background:var(--bg-header);color:var(--blue);font-size:.7rem;letter-spacing:1px}
+        tr:hover{background:#16171f}
+        /* Badges */
+        .badge{padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:bold}
+        .badge-CRITICAL{background:rgba(255,77,77,.15);color:var(--red);border:1px solid var(--red)}
+        .badge-HIGH{background:rgba(255,148,77,.15);color:var(--orange);border:1px solid var(--orange)}
+        .badge-MEDIUM{background:rgba(255,209,102,.15);color:var(--yellow);border:1px solid var(--yellow)}
+        .badge-LOW{background:rgba(160,160,160,.1);color:var(--gray);border:1px solid #444}
+        .risk-bar{width:70px;height:7px;background:#222;border-radius:4px;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:5px}
+        .risk-fill{height:100%;border-radius:4px}
+        .status-OPEN{color:var(--yellow)}.status-IN_PROGRESS{color:var(--blue)}.status-RESOLVED{color:var(--green)}.status-CLOSED{color:var(--gray)}
+        .action-btn{background:transparent;border:1px solid #333;color:var(--gray);padding:3px 9px;border-radius:4px;cursor:pointer;font-size:.72rem;transition:.2s}
+        .action-btn:hover{border-color:var(--blue);color:var(--blue)}
+        /* Panel */
+        .panel{display:none}.panel.active{display:block}
+        .no-data{text-align:center;padding:40px;color:var(--gray)}
+        /* Access denied */
+        .access-denied{text-align:center;padding:40px;color:var(--red);font-size:.9rem}
+        /* Admin user table */
+        .toggle-active{padding:4px 10px;border-radius:4px;font-size:.72rem;cursor:pointer;border:1px solid #333;background:transparent;color:var(--gray);transition:.2s}
+        .toggle-active:hover{border-color:var(--green);color:var(--green)}
+        /* Audit */
+        .audit-action{font-size:.72rem;padding:2px 8px;border-radius:10px;background:rgba(179,136,255,.1);color:var(--purple);border:1px solid var(--purple)}
+    </style>
+</head>
+<body>
+<div class="header">
+    <div><h1>⚡ SOAR COMMAND CENTER</h1><p>Security Orchestration, Automation & Response</p></div>
+    <div class="header-right">
+        <div class="user-badge">
+            <span class="name" id="user-name">Loading...</span>
+            <span class="role-tag" id="user-role">—</span>
+        </div>
+        <button class="btn btn-blue" onclick="window.location.href='/api/alerts/report'">📄 REPORT</button>
+        <button class="btn btn-red" onclick="logout()">LOGOUT</button>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card total">   <div class="val" id="s-total">—</div><div class="lbl">TOTAL</div></div>
+    <div class="stat-card critical"><div class="val" id="s-crit">—</div><div class="lbl">CRITICAL</div></div>
+    <div class="stat-card high">    <div class="val" id="s-high">—</div><div class="lbl">HIGH</div></div>
+    <div class="stat-card open">    <div class="val" id="s-open">—</div><div class="lbl">OPEN</div></div>
+    <div class="stat-card resolved"><div class="val" id="s-res">—</div><div class="lbl">RESOLVED</div></div>
+</div>
+
+<div class="flow-diagram">
+    <h3>🔄 COMPONENT INTERACTION FLOW</h3>
+    <div class="flow">
+        <div class="flow-box"><span class="icon">🔍</span>Wazuh SIEM</div><span class="arrow">→</span>
+        <div class="flow-box hi"><span class="icon">📥</span>Alert Ingestion</div><span class="arrow">→</span>
+        <div class="flow-box hi"><span class="icon">🧠</span>Threat Intel</div><span class="arrow">→</span>
+        <div class="flow-box hi"><span class="icon">⚙️</span>Playbook</div><span class="arrow">→</span>
+        <div class="flow-box hi"><span class="icon">🔔</span>Notifications</div><span class="arrow">→</span>
+        <div class="flow-box hi"><span class="icon">🔐</span>Auth/RBAC</div><span class="arrow">→</span>
+        <div class="flow-box hi"><span class="icon">📊</span>Dashboard</div>
+    </div>
+</div>
+
+<div class="tabs">
+    <div class="tab active" onclick="switchTab('alerts')">🚨 ALERTS</div>
+    <div class="tab" onclick="switchTab('intel')">🧠 THREAT INTEL</div>
+    <div class="tab" onclick="switchTab('notifications')">🔔 NOTIFICATIONS</div>
+    <div class="tab admin-tab" id="tab-admin" style="display:none" onclick="switchTab('admin')">👑 USER MANAGEMENT</div>
+    <div class="tab admin-tab" id="tab-audit" style="display:none" onclick="switchTab('audit')">📋 AUDIT LOG</div>
+</div>
+
+<!-- ALERTS -->
+<div id="panel-alerts" class="panel active">
+    <div class="filters">
+        <label>SEVERITY:</label>
+        <select id="f-sev" onchange="fetchAlerts()"><option value="">All</option><option value="CRITICAL">Critical</option><option value="HIGH">High</option><option value="MEDIUM">Medium</option><option value="LOW">Low</option></select>
+        <label>STATUS:</label>
+        <select id="f-status" onchange="fetchAlerts()"><option value="">All</option><option value="OPEN">Open</option><option value="IN_PROGRESS">In Progress</option><option value="RESOLVED">Resolved</option><option value="CLOSED">Closed</option></select>
+        <div class="refresh">Auto-refresh: <span>ON</span> (5s)</div>
+    </div>
+    <div class="table-wrap"><table>
+        <thead><tr><th>#ID</th><th>TIMESTAMP</th><th>SOURCE</th><th>TYPE</th><th>SEVERITY</th><th>STATUS</th><th>ACTION</th></tr></thead>
+        <tbody id="tbl-alerts"><tr><td colspan="7" class="no-data">Loading...</td></tr></tbody>
+    </table></div>
+</div>
+
+<!-- THREAT INTEL -->
+<div id="panel-intel" class="panel">
+    <div class="table-wrap"><table>
+        <thead><tr><th>ALERT ID</th><th>THREAT CATEGORY</th><th>RISK SCORE</th><th>MALICIOUS IP</th><th>RECOMMENDATION</th><th>TIME</th></tr></thead>
+        <tbody id="tbl-intel"><tr><td colspan="6" class="no-data">Loading...</td></tr></tbody>
+    </table></div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="panel-notifications" class="panel">
+    <div class="table-wrap"><table>
+        <thead><tr><th>ALERT ID</th><th>SEVERITY</th><th>TYPE</th><th>NOTIFIED ROLES</th><th>RISK SCORE</th><th>RECOMMENDATION</th><th>TIME</th></tr></thead>
+        <tbody id="tbl-notif"><tr><td colspan="7" class="no-data">Loading...</td></tr></tbody>
+    </table></div>
+</div>
+
+<!-- USER MANAGEMENT (ADMIN only) -->
+<div id="panel-admin" class="panel">
+    <div class="table-wrap"><table>
+        <thead><tr><th>ID</th><th>USERNAME</th><th>FULL NAME</th><th>ROLE</th><th>STATUS</th><th>LAST LOGIN</th><th>ACTION</th></tr></thead>
+        <tbody id="tbl-users"><tr><td colspan="7" class="no-data">Loading...</td></tr></tbody>
+    </table></div>
+</div>
+
+<!-- AUDIT LOG (ADMIN + SOC_MANAGER) -->
+<div id="panel-audit" class="panel">
+    <div class="table-wrap"><table>
+        <thead><tr><th>ID</th><th>USER</th><th>ACTION</th><th>DETAILS</th><th>IP</th><th>TIME</th></tr></thead>
+        <tbody id="tbl-audit"><tr><td colspan="6" class="no-data">Loading...</td></tr></tbody>
+    </table></div>
+</div>
+
+<script>
+    const API   = "http://localhost:5000/api/alerts";
+    const AAPI  = "http://localhost:5000/api/auth";
+    let   currentUser = null;
+
+    // ── Auth ──────────────────────────────────────────────
+    function getToken() { return localStorage.getItem("soar_token"); }
+
+    function authHeaders() {
+        return { "Content-Type": "application/json", "Authorization": `Bearer ${getToken()}` };
+    }
+
+    function logout() {
+        fetch(`${AAPI}/logout`, { method: "POST", headers: authHeaders() });
+        localStorage.removeItem("soar_token");
+        localStorage.removeItem("soar_user");
+        window.location.href = "/";
+    }
+
+    function hasPermission(perm) {
+        return currentUser?.permissions?.includes(perm);
+    }
+
+    async function initUser() {
+        const token = getToken();
+        if (!token) return window.location.href = "/";
+
+        try {
+            const res  = await fetch(`${AAPI}/me`, { headers: authHeaders() });
+            if (!res.ok) { localStorage.clear(); return window.location.href = "/"; }
+            currentUser = await res.json();
+
+            document.getElementById("user-name").textContent = currentUser.full_name;
+            const roleEl = document.getElementById("user-role");
+            roleEl.textContent  = currentUser.role.replace("_"," ");
+            roleEl.className    = `role-tag role-${currentUser.role}`;
+
+            // Show admin tabs based on role
+            if (currentUser.role === "ADMIN") {
+                document.getElementById("tab-admin").style.display = "block";
+                document.getElementById("tab-audit").style.display = "block";
+            } else if (currentUser.role === "SOC_MANAGER") {
+                document.getElementById("tab-audit").style.display = "block";
+            }
+        } catch(e) {
+            window.location.href = "/";
+        }
+    }
+
+    // ── Tabs ──────────────────────────────────────────────
+    function switchTab(tab) {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+        document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add("active");
+        document.getElementById(`panel-${tab}`).classList.add("active");
+        if (tab==="intel")         fetchIntel();
+        if (tab==="notifications") fetchNotifications();
+        if (tab==="admin")         fetchUsers();
+        if (tab==="audit")         fetchAudit();
+    }
+
+    function getRiskColor(s){return s>=90?"#ff4d4d":s>=70?"#ff944d":s>=50?"#ffd166":"#06d6a0"}
+
+    // ── Stats ─────────────────────────────────────────────
+    async function fetchStats() {
+        try {
+            const r = await fetch(`${API}/stats/summary`, { headers: authHeaders() });
+            const s = await r.json();
+            document.getElementById("s-total").textContent = s.total||0;
+            document.getElementById("s-crit").textContent  = s.critical||0;
+            document.getElementById("s-high").textContent  = s.high||0;
+            document.getElementById("s-open").textContent  = s.open_alerts||0;
+            document.getElementById("s-res").textContent   = s.resolved||0;
+        } catch(e){}
+    }
+
+    // ── Alerts ────────────────────────────────────────────
+    async function updateStatus(id, cur) {
+        const opts=["OPEN","IN_PROGRESS","RESOLVED","CLOSED"];
+        const next=opts[(opts.indexOf(cur)+1)%opts.length];
+        await fetch(`${API}/${id}/status`,{method:"PATCH",headers:authHeaders(),body:JSON.stringify({status:next})});
+        fetchAlerts(); fetchStats();
+    }
+
+    async function fetchAlerts() {
+        const sev=document.getElementById("f-sev").value;
+        const st=document.getElementById("f-status").value;
+        let url=API+"?";
+        if(sev) url+=`severity=${sev}&`;
+        if(st)  url+=`status=${st}&`;
+        try {
+            const r=await fetch(url,{headers:authHeaders()});
+            if(r.status===401||r.status===403){document.getElementById("tbl-alerts").innerHTML='<tr><td colspan="7" class="no-data access-denied">🔒 Session expired. Please login again.</td></tr>';return;}
+            const alerts=await r.json();
+            const tbody=document.getElementById("tbl-alerts");
+            if(!alerts.length){tbody.innerHTML='<tr><td colspan="7" class="no-data">No alerts found.</td></tr>';return;}
+            tbody.innerHTML=alerts.map(a=>`<tr><td>#${a.id}</td><td>${new Date(a.created_at).toLocaleString()}</td><td>${a.source}</td><td>${a.type}</td><td><span class="badge badge-${a.severity}">${a.severity}</span></td><td class="status-${a.status}">${a.status.replace("_"," ")}</td><td><button class="action-btn" onclick="updateStatus(${a.id},'${a.status}')">Update</button></td></tr>`).join("");
+        } catch(e){document.getElementById("tbl-alerts").innerHTML='<tr><td colspan="7" class="no-data">⚠️ Cannot connect to backend.</td></tr>';}
+    }
+
+    // ── Threat Intel ──────────────────────────────────────
+    async function fetchIntel() {
+        try {
+            const r=await fetch(`${API}/intel`,{headers:authHeaders()});
+            const rows=await r.json();
+            const tbody=document.getElementById("tbl-intel");
+            if(!rows.length){tbody.innerHTML='<tr><td colspan="6" class="no-data">No threat intel yet.</td></tr>';return;}
+            tbody.innerHTML=rows.map(r=>{const c=getRiskColor(r.risk_score);return`<tr><td>#${r.alert_id}</td><td>${r.threat_category}</td><td><div class="risk-bar"><div class="risk-fill" style="width:${r.risk_score}%;background:${c}"></div></div><span style="color:${c}">${r.risk_score}</span></td><td>${r.has_malicious_ip?'<span style="color:#ff4d4d">⚠️ YES</span>':'<span style="color:#06d6a0">✅ NO</span>'}</td><td style="color:#a0a0a0;font-size:.78rem">${r.recommendation}</td><td>${new Date(r.created_at).toLocaleString()}</td></tr>`}).join("");
+        } catch(e){}
+    }
+
+    // ── Notifications ─────────────────────────────────────
+    async function fetchNotifications() {
+        try {
+            const r=await fetch(`${API}/notifications`,{headers:authHeaders()});
+            const rows=await r.json();
+            const tbody=document.getElementById("tbl-notif");
+            if(!rows.length){tbody.innerHTML='<tr><td colspan="7" class="no-data">No notifications yet.</td></tr>';return;}
+            tbody.innerHTML=rows.map(r=>`<tr><td>#${r.alert_id}</td><td><span class="badge badge-${r.severity}">${r.severity}</span></td><td>${r.type}</td><td style="color:#b388ff">${r.notify_roles}</td><td style="color:${getRiskColor(r.risk_score)}">${r.risk_score}</td><td style="color:#a0a0a0;font-size:.78rem">${r.recommendation}</td><td>${new Date(r.created_at).toLocaleString()}</td></tr>`).join("");
+        } catch(e){}
+    }
+
+    // ── User Management (ADMIN only) ──────────────────────
+    async function fetchUsers() {
+        if(currentUser?.role !== "ADMIN"){document.getElementById("tbl-users").innerHTML='<tr><td colspan="7" class="access-denied">🔒 ADMIN access required</td></tr>';return;}
+        try {
+            const r=await fetch(`${AAPI}/users`,{headers:authHeaders()});
+            const users=await r.json();
+            const tbody=document.getElementById("tbl-users");
+            tbody.innerHTML=users.map(u=>`<tr><td>#${u.id}</td><td>${u.username}</td><td>${u.full_name}</td><td><span class="badge role-${u.role}" style="font-size:.7rem">${u.role.replace("_"," ")}</span></td><td>${u.is_active?'<span style="color:#06d6a0">ACTIVE</span>':'<span style="color:#ff4d4d">DISABLED</span>'}</td><td>${u.last_login?new Date(u.last_login).toLocaleString():'Never'}</td><td><button class="toggle-active" onclick="toggleUser(${u.id},${u.is_active})">${u.is_active?'Disable':'Enable'}</button></td></tr>`).join("");
+        } catch(e){}
+    }
+
+    async function toggleUser(id, isActive) {
+        await fetch(`${AAPI}/users/${id}`,{method:"PATCH",headers:authHeaders(),body:JSON.stringify({is_active: isActive?0:1})});
+        fetchUsers();
+    }
+
+    // ── Audit Log ─────────────────────────────────────────
+    async function fetchAudit() {
+        try {
+            const r=await fetch(`${AAPI}/audit`,{headers:authHeaders()});
+            const rows=await r.json();
+            const tbody=document.getElementById("tbl-audit");
+            if(!rows.length){tbody.innerHTML='<tr><td colspan="6" class="no-data">No audit events yet.</td></tr>';return;}
+            tbody.innerHTML=rows.map(r=>`<tr><td>#${r.id}</td><td style="color:#b388ff">${r.username}</td><td><span class="audit-action">${r.action}</span></td><td style="color:#a0a0a0;font-size:.78rem">${r.details}</td><td>${r.ip_address||'—'}</td><td>${new Date(r.created_at).toLocaleString()}</td></tr>`).join("");
+        } catch(e){}
+    }
+
+    // ── Init ──────────────────────────────────────────────
+    initUser().then(() => { fetchAlerts(); fetchStats(); });
+    setInterval(()=>{ fetchAlerts(); fetchStats(); }, 5000);
+</script>
+</body>
+</html>
