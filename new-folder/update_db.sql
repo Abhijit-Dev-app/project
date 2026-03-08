@@ -26,3 +26,4 @@ CREATE TABLE IF NOT EXISTS threat_intel_log (
 );
 
 SELECT 'New tables created successfully!' AS Result;
+

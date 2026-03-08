@@ -104,3 +104,4 @@ const logToDatabase = (notification) => {
 };
 
 module.exports = { sendNotification, ESCALATION_RULES };
+

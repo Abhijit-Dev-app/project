@@ -32,3 +32,4 @@ CREATE TABLE IF NOT EXISTS audit_log (
 );
 
 SELECT 'Auth tables created!' AS Result;
+

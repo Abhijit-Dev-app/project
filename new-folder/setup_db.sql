@@ -22,3 +22,4 @@ INSERT INTO alerts (source, type, severity, message, status)
 VALUES ('Test', 'Setup Verification', 'LOW', 'Database setup successful', 'RESOLVED');
 
 SELECT 'SOAR1 database setup complete!' AS Result;
+

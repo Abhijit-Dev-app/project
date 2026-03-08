@@ -75,3 +75,4 @@ const requireRole = (...roles) => {
 };
 
 module.exports = { verifyToken, requirePermission, requireRole, ROLE_PERMISSIONS, JWT_SECRET };
+

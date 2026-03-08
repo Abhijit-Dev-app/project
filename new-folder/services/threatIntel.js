@@ -74,3 +74,4 @@ const getRecommendation = (riskScore) => {
 };
 
 module.exports = { enrichAlert, checkIPReputation, classifyThreat };
+

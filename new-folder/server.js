@@ -33,3 +33,4 @@ app.listen(PORT, "0.0.0.0", () => {
     console.log(`📊 Dashboard: http://localhost:${PORT}/dashboard`);
     console.log(`🔍 Health:    http://localhost:${PORT}/health\n`);
 });
+
