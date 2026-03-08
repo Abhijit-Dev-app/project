@@ -1,0 +1,27 @@
+I. Software Architecture Style: Microservices Architecture
+For this SOAR (Security Orchestration, Automation, and Response) platform, a Microservices Architecture is the most appropriate choice. This style decomposes the application into a suite of small, independent services, each running its own process and communicating via lightweight mechanisms (typically an HTTP API or Message Broker).
+
+A. Justification by Component Granularity
+The granularity of the software components, as identified in the Level 1 DFD and Use Case Diagram, aligns with independent service boundaries:
+
+1>Ingestion & Normalization Service: A high-granularity service focused solely on receiving raw data from "Security Tools" and translating it into a common schema (Processes 1.0 & 2.0).
+
+2>Analytics & Risk Engine: A specialized service for "Alert Correlation" and "Risk Assessment" (Processes 3.0 & 4.0) that can be updated independently of the ingestion logic.
+
+3>Playbook Orchestration Service: A core logic service that interacts with the "Playbook Repository" (D2) to execute automated responses (Process 5.0).
+
+4>Case Management & Audit Service: Manages analyst interactions and handles long-term storage in "Incident Records" (D3) (Processes 7.0 & 8.0).
+
+5>Identity & Access Service: A dedicated component for "Login/Authentication" and "RBAC," ensuring security is centralized but decoupled from business logic.
+
+___________________________________________________________________________________________
+B. Justification for Project Requirements
+This architecture style is the best choice for a SOAR platform based on the following requirements:
+
+1>Scalability: Security alerts often arrive in massive bursts (e.g., during a DDoS attack). We can horizontally scale the Alert Ingestion and Normalization services specifically to handle the load without needing to scale the entire platform.
+
+2>Maintainability: SOAR platforms must frequently integrate with new third-party security tools. We can develop and deploy a new "Connector" or "Playbook" service without redeploying the core system, reducing the risk of regression errors.
+
+3>Performance & Fault Tolerance: If the Threat Intel Enrichment service (shown in the UML) experiences a delay, it will not block the Response Execution (Process 6.0). This isolation ensures critical defensive actions are never blocked by non-critical data enrichment.
+
+4>Technology Diversity: Different components require different tech stacks. The Risk Assessment module can be built using Python for its data science libraries, while the Ingestion Engine can be built in Go for high-concurrency performance.

@@ -1,1 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SOAR — Secure Access</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap');
+
+  :root {
+    --bg: #070910;
+    --panel: #0d0f18;
+    --border: #1a1f35;
+    --blue: #00d4ff;
+    --blue-dim: rgba(0,212,255,0.08);
+    --red: #ff3c5a;
+    --green: #00ff9d;
+    --text: #c8d0e8;
+    --muted: #4a5270;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Exo 2', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* Glowing orb */
+  body::after {
+    content: '';
+    position: fixed;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 440px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Logo */
+  .logo {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .logo-icon {
+    width: 64px; height: 64px;
+    border: 2px solid var(--blue);
+    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 30px rgba(0,212,255,0.3), inset 0 0 20px rgba(0,212,255,0.05);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(0,212,255,0.3), inset 0 0 20px rgba(0,212,255,0.05); }
+    50%       { box-shadow: 0 0 50px rgba(0,212,255,0.5), inset 0 0 30px rgba(0,212,255,0.1); }
+  }
+
+  .logo h1 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.6rem;
+    color: var(--blue);
+    letter-spacing: 6px;
+    font-weight: 400;
+  }
+
+  .logo p {
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+
+  /* Panel */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+  }
+
+  .panel-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 3px;
+    margin-bottom: 28px;
+    text-transform: uppercase;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 28px;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 4px;
+  }
+
+  .tab-btn {
+    flex: 1;
+    padding: 9px;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .tab-btn.active {
+    background: var(--blue-dim);
+    color: var(--blue);
+    border: 1px solid rgba(0,212,255,0.2);
+  }
+
+  /* Form */
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  input, select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    outline: none;
+  }
+
+  input:focus, select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+  }
+
+  select option { background: #0d0f18; }
+
+  /* Submit button */
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-top: 8px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--blue);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    z-index: -1;
+  }
+
+  .submit-btn:hover {
+    color: #000;
+    box-shadow: 0 0 20px rgba(0,212,255,0.4);
+  }
+
+  .submit-btn:hover::before { transform: translateX(0); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Message */
+  .message {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    display: none;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .message.error   { background: rgba(255,60,90,0.1);  border: 1px solid var(--red);   color: var(--red); }
+  .message.success { background: rgba(0,255,157,0.1);  border: 1px solid var(--green); color: var(--green); }
+  .message.show    { display: block; }
+
+  /* Form visibility */
+  .form-section { display: none; }
+  .form-section.active { display: block; }
+
+  /* Role badges */
+  .role-info {
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .role-info p {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    text-transform: uppercase;
+  }
+
+  .role-list { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .role-badge {
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.68rem;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  .role-badge.admin    { background: rgba(255,60,90,0.1);   color: #ff3c5a; border: 1px solid #ff3c5a; }
+  .role-badge.manager  { background: rgba(255,148,77,0.1);  color: #ff944d; border: 1px solid #ff944d; }
+  .role-badge.response { background: rgba(0,212,255,0.1);   color: #00d4ff; border: 1px solid #00d4ff; }
+  .role-badge.analyst  { background: rgba(0,255,157,0.1);   color: #00ff9d; border: 1px solid #00ff9d; }
+
+  /* Scan line animation */
+  .scan-line {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    animation: scan 4s linear infinite;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  @keyframes scan {
+    0%   { top: 0; }
+    100% { top: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<div class="container">
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    <h1>SOAR</h1>
+    <p>Security Orchestration & Automated Response</p>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">// SECURE ACCESS TERMINAL</div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('login')">LOGIN</button>
+      <button class="tab-btn" onclick="switchTab('register')">REGISTER</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="form-login" class="form-section active">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-username" placeholder="Enter username" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="Enter password">
+      </div>
+      <button class="submit-btn" onclick="handleLogin()">AUTHENTICATE →</button>
+      <div id="login-msg" class="message"></div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="form-register" class="form-section">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="reg-name" placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="reg-username" placeholder="Choose a username" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="reg-password" placeholder="Choose a password">
+      </div>
+      <div class="form-group">
+        <label>Role</label>
+        <select id="reg-role">
+          <option value="SOC_ANALYST">SOC Analyst</option>
+          <option value="INCIDENT_RESPONSE">Incident Response</option>
+          <option value="SOC_MANAGER">SOC Manager</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+      <button class="submit-btn" onclick="handleRegister()">CREATE ACCOUNT →</button>
+      <div id="reg-msg" class="message"></div>
+    </div>
+
+    <!-- Role info -->
+    <div class="role-info">
+      <p>// Access Levels</p>
+      <div class="role-list">
+        <span class="role-badge admin">ADMIN</span>
+        <span class="role-badge manager">SOC MANAGER</span>
+        <span class="role-badge response">INCIDENT RESPONSE</span>
+        <span class="role-badge analyst">SOC ANALYST</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const API = "http://localhost:5000/api/auth";
+
+  function switchTab(tab) {
+    document.querySelectorAll(".tab-btn").forEach((b,i) =>
+      b.classList.toggle("active", ["login","register"][i] === tab));
+    document.querySelectorAll(".form-section").forEach(f => f.classList.remove("active"));
+    document.getElementById(`form-${tab}`).classList.add("active");
+  }
+
+  function showMsg(id, text, type) {
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.className = `message ${type} show`;
+  }
+
+  async function handleLogin() {
+    const username = document.getElementById("login-username").value.trim();
+    const password = document.getElementById("login-password").value;
+
+    if (!username || !password) return showMsg("login-msg", "Please enter username and password", "error");
+
+    try {
+      const res  = await fetch(`${API}/login`, {
+        method : "POST",
+        headers: { "Content-Type": "application/json" },
+        body   : JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+
+      if (!res.ok) return showMsg("login-msg", data.error, "error");
+
+      // Save token and user info
+      localStorage.setItem("soar_token", data.token);
+      localStorage.setItem("soar_user",  JSON.stringify(data.user));
+
+      showMsg("login-msg", `Welcome, ${data.user.full_name}! Redirecting...`, "success");
+      setTimeout(() => window.location.href = "/dashboard", 1000);
+
+    } catch(e) {
+      showMsg("login-msg", "Cannot connect to server", "error");
+    }
+  }
+
+  async function handleRegister() {
+    const full_name = document.getElementById("reg-name").value.trim();
+    const username  = document.getElementById("reg-username").value.trim();
+    const password  = document.getElementById("reg-password").value;
+    const role      = document.getElementById("reg-role").value;
+
+    if (!username || !password) return showMsg("reg-msg", "Username and password are required", "error");
+
+    try {
+      const res  = await fetch(`${API}/register`, {
+        method : "POST",
+        headers: { "Content-Type": "application/json" },
+        body   : JSON.stringify({ username, password, role, full_name })
+      });
+      const data = await res.json();
+
+      if (!res.ok) return showMsg("reg-msg", data.error, "error");
+
+      showMsg("reg-msg", `Account created as ${data.role}! Please login.`, "success");
+      setTimeout(() => switchTab("login"), 1500);
+
+    } catch(e) {
+      showMsg("reg-msg", "Cannot connect to server", "error");
+    }
+  }
+
+  // Allow Enter key
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    const active = document.querySelector(".form-section.active").id;
+    if (active === "form-login")    handleLogin();
+    if (active === "form-register") handleRegister();
+  });
+
+  // Redirect if already logged in
+  if (localStorage.getItem("soar_token")) {
+    window.location.href = "/dashboard";
+  }
+</script>
+</body>
+</html>
 

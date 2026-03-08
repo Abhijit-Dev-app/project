@@ -1,0 +1,19 @@
+II. Application Components
+1. Ingestion & Normalization Component
+Function: Acts as the entry point for "Security Tools" and "SIEM Systems." It validates raw alerts and transforms them into a standardized JSON format for the rest of the pipeline.
+
+2. Analytics & Correlation Engine
+Function: Correlates multiple alerts into a single "Incident" to reduce alert fatigue. It performs the Risk Assessment (Process 4.0) to determine the severity and priority of the threat.
+
+3. Playbook Orchestrator
+Function: The central logic controller that fetches rules from the Playbook Repository (D2) and triggers the Response Execution (e.g., blocking an IP or isolating a host).
+
+4. Case Management System
+Function: The primary interface for the Security Analyst. It handles "Incident Reporting," "Incident Status Tracking," and allows for manual intervention in the automated workflow.
+
+5. Integration Gateways (Adapters)
+Function: Specialized components that handle communication with external entities like the Threat Intel Platform and Identity Providers (for Login/Authentication).
+
+6. Logging & Audit Service
+Function: A background component (Process 8.0) that records every action taken by the system and users into Incident Records (D3) for legal and compliance purposes.
+question 2
