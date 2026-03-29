@@ -1,4 +1,4 @@
-# Q1. Core Functional Modules and Interaction with Presentation Layer
+# Core Functional Modules and Interaction with Presentation Layer
 
 ## Core Functional Modules (Business Logic Layer)
 
@@ -60,6 +60,6 @@ The frontend (React-based UI) interacts with backend modules through REST APIs.
 
 ---
 
-## Summary
+## In Short
 
 The business logic layer is composed of multiple modules such as alert processing, threat intelligence, playbook execution, notification handling, user management, and audit logging. These modules interact with the presentation layer through API calls, enabling the user interface to display data and trigger actions dynamically.
