@@ -120,3 +120,4 @@ router.delete('/:id', verifyToken, requireRole('ADMIN', 'SOC_MANAGER'), (req, re
 });
 
 module.exports = router;
+
