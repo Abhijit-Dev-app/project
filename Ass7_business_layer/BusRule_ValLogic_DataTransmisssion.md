@@ -1,4 +1,4 @@
-# Q2. Business Rules, Validation Logic, and Data Transformation
+# Business Rules, Validation Logic, and Data Transformation
 
 ## A) Business Rules Implementation
 
