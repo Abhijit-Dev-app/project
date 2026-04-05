@@ -1,0 +1,148 @@
+# White Box Testing (Glass Box Testing)
+
+White Box Testing focuses on testing the internal logic, code structure, and execution paths of the application. The tester has full knowledge of the backend logic.
+
+## Modules Tested
+- Authentication Module
+- Alert Processing Module
+- Threat Intelligence Module
+- Playbook Execution Module
+- Logging Module
+
+---
+
+## Test Cases
+
+### Test Case 1: Empty Input Validation
+| Test Case ID | WB-01 |
+|-------------|------|
+| Objective | Validate empty username and password |
+| Input | username="", password="" |
+| Expected Output | Error: Invalid Input |
+| Actual Output | Error displayed |
+| Result | Pass |
+
+---
+
+### Test Case 2: Valid Login Logic
+| Test Case ID | WB-02 |
+|-------------|------|
+| Objective | Verify correct login logic |
+| Input | valid username and password |
+| Expected Output | Login success |
+| Actual Output | Login successful |
+| Result | Pass |
+
+---
+
+### Test Case 3: Invalid Token Check
+| Test Case ID | WB-03 |
+|-------------|------|
+| Objective | Verify token validation |
+| Input | Invalid token |
+| Expected Output | Access denied |
+| Actual Output | Access denied |
+| Result | Pass |
+
+---
+
+### Test Case 4: Threat Detection Logic
+| Test Case ID | WB-04 |
+|-------------|------|
+| Objective | Check malicious IP detection |
+| Input | IP exists in threat_intel_log |
+| Expected Output | Mark as malicious |
+| Actual Output | Marked malicious |
+| Result | Pass |
+
+---
+
+### Test Case 5: Non-Malicious IP
+| Test Case ID | WB-05 |
+|-------------|------|
+| Objective | Verify safe IP handling |
+| Input | IP not in threat database |
+| Expected Output | Mark as safe |
+| Actual Output | Marked safe |
+| Result | Pass |
+
+---
+
+### Test Case 6: Alert Severity High
+| Test Case ID | WB-06 |
+|-------------|------|
+| Objective | Verify high severity logic |
+| Input | severity="high" |
+| Expected Output | Trigger response |
+| Actual Output | Response triggered |
+| Result | Pass |
+
+---
+
+### Test Case 7: Alert Severity Low
+| Test Case ID | WB-07 |
+|-------------|------|
+| Objective | Verify low severity logic |
+| Input | severity="low" |
+| Expected Output | Only log alert |
+| Actual Output | Logged |
+| Result | Pass |
+
+---
+
+### Test Case 8: Playbook Execution
+| Test Case ID | WB-08 |
+|-------------|------|
+| Objective | Execute playbook rules |
+| Input | alert type = phishing |
+| Expected Output | Email quarantine |
+| Actual Output | Executed |
+| Result | Pass |
+
+---
+
+### Test Case 9: Notification Trigger
+| Test Case ID | WB-09 |
+|-------------|------|
+| Objective | Verify notification logic |
+| Input | critical alert |
+| Expected Output | Notification sent |
+| Actual Output | Notification logged |
+| Result | Pass |
+
+---
+
+### Test Case 10: Audit Log Entry
+| Test Case ID | WB-10 |
+|-------------|------|
+| Objective | Verify logging functionality |
+| Input | any system action |
+| Expected Output | Entry in audit_log |
+| Actual Output | Log stored |
+| Result | Pass |
+
+---
+
+### Test Case 11: Database Insert Check
+| Test Case ID | WB-11 |
+|-------------|------|
+| Objective | Verify alert insertion |
+| Input | new alert |
+| Expected Output | Stored in alerts table |
+| Actual Output | Stored |
+| Result | Pass |
+
+---
+
+### Test Case 12: Invalid Data Handling
+| Test Case ID | WB-12 |
+|-------------|------|
+| Objective | Handle malformed data |
+| Input | missing fields |
+| Expected Output | Reject request |
+| Actual Output | Error returned |
+| Result | Pass |
+
+---
+
+In this Testing we are verifiying the internal logic we will add more test cases as this project proceeds further.
