@@ -1,7 +1,5 @@
 # Black Box Testing (Functional Testing)
 
-Black Box Testing evaluates system functionality without knowledge of internal code. It focuses on user inputs and expected outputs.
-
 ## Modules Tested
 - Login Page
 - Alerts Dashboard
@@ -146,6 +144,4 @@ Black Box Testing evaluates system functionality without knowledge of internal c
 
 ---
 
-## Conclusion
-
-Black Box Testing confirmed that all user-facing functionalities such as login, alert viewing, playbook execution, and notifications are working correctly. The system behaves as expected under different user inputs.
+Black Box Testing confirmed that all user-facing functionalities such as login, alert viewing, playbook execution, and notifications are working correctly. The system behaves as expected under different user inputs. As the project proceeds further we will add more test cases and check the system behaviour for those cases.
