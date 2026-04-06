@@ -1,0 +1,94 @@
+Black Box Testing (Functional Testing)
+Modules Tested
+Login Page
+Alerts Dashboard
+Threat Intelligence UI
+Playbook Manager
+Notification System
+User Management
+Test Cases
+Test Case 1: Valid Login
+Test Case ID	BB-01
+Objective	Verify login
+Input	valid credentials
+Expected Output	Login success
+Actual Output	Success
+Result	Pass
+Test Case 2: Invalid Login
+Test Case ID	BB-02
+Objective	Verify wrong login
+Input	wrong credentials
+Expected Output	Error
+Actual Output	Error shown
+Result	Pass
+Test Case 3: Empty Login Fields
+Test Case ID	BB-03
+Objective	Validate empty fields
+Input	empty username/password
+Expected Output	Error
+Actual Output	Error shown
+Result	Pass
+Test Case 4: Alerts Display
+Test Case ID	BB-04
+Objective	View alerts
+Input	open dashboard
+Expected Output	Alerts shown
+Actual Output	Displayed
+Result	Pass
+Test Case 5: No Alerts Scenario
+Test Case ID	BB-05
+Objective	Handle no alerts
+Input	empty DB
+Expected Output	No data message
+Actual Output	Message shown
+Result	Pass
+Test Case 6: Threat Lookup
+Test Case ID	BB-06
+Objective	Check IP
+Input	enter IP
+Expected Output	Show status
+Actual Output	Status shown
+Result	Pass
+Test Case 7: Playbook Execution
+Test Case ID	BB-07
+Objective	Run playbook
+Input	click execute
+Expected Output	Action triggered
+Actual Output	Executed
+Result	Pass
+Test Case 8: Notification Display
+Test Case ID	BB-08
+Objective	Show notifications
+Input	trigger alert
+Expected Output	Notification visible
+Actual Output	Visible
+Result	Pass
+Test Case 9: User Creation
+Test Case ID	BB-09
+Objective	Add user
+Input	valid user data
+Expected Output	User created
+Actual Output	Created
+Result	Pass
+Test Case 10: Duplicate User
+Test Case ID	BB-10
+Objective	Prevent duplicate user
+Input	same username
+Expected Output	Error
+Actual Output	Error shown
+Result	Pass
+Test Case 11: Invalid Input Format
+Test Case ID	BB-11
+Objective	Validate input
+Input	invalid IP format
+Expected Output	Error
+Actual Output	Error shown
+Result	Pass
+Test Case 12: Logout Functionality
+Test Case ID	BB-12
+Objective	Logout user
+Input	click logout
+Expected Output	Redirect to login
+Actual Output	Redirected
+Result	Pass
+Black Box Testing confirmed that all user-facing functionalities such as login, alert viewing, playbook execution, and notifications are working correctly. The system behaves as expected under different user inputs. As the project proceeds further we will add more test cases and check the system behaviour for those cases.
