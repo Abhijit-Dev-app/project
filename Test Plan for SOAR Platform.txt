@@ -1,0 +1,99 @@
+Test Plan for SOAR Platform
+
+1. Objective of Testing
+The objective of testing is to ensure that the Security Orchestration, Automation, and Response (SOAR) platform functions correctly and meets all specified requirements.
+
+The goals include:
+
+Verifying all functional requirements
+Identifying and fixing defects
+Ensuring accurate automated responses
+Validating system performance, security, and reliability
+
+2. Scope of Testing
+The testing scope covers all major modules of the SOAR platform.
+
+Modules to be Tested
+
+Alert Ingestion Module
+
+Collection of alerts from APIs and logs
+
+Normalization of alert data
+
+Incident Management
+
+Grouping alerts into incidents
+
+Severity assignment
+
+Manual status updates
+
+Automation Playbooks
+
+Creation and execution of playbooks
+
+Conditional logic handling
+
+Automated Response Actions
+
+Blocking malicious IPs
+
+Isolating compromised endpoints
+
+Sending notifications
+
+Dashboard & Visualization
+
+Real-time monitoring
+
+Filtering and analytics
+
+Reporting Module
+
+Report generation (PDF/CSV)
+
+User Management
+
+Authentication
+
+Role-based access control
+
+Activity logging
+
+3. Types of Testing
+
+ 3.1 Unit Testing
+Testing individual components such as alert parsers and playbook executors.
+ 3.2 Integration Testing
+Testing interaction between modules, e.g., alert ingestion with incident management.
+ 3.3 System Testing
+End-to-end testing of the complete system under real-world scenarios.
+ 3.4 Performance Testing
+Evaluating system behavior under high alert loads and checking response time.
+ 3.5 Security Testing
+Ensuring protection against unauthorized access and verifying data encryption.
+ 3.6 User Acceptance Testing (UAT)
+Testing by actual users (e.g., SOC analysts) to validate usability and functionality.
+
+4. Tools Used
+Postman – API testing
+Selenium – UI testing
+Wireshark (optional) – Network analysis
+
+5. Entry Criteria
+
+Testing will begin only when:
+Requirements are clearly defined
+Initial system build is available
+Test cases are prepared
+Testing environment and tools are ready
+
+6. Exit Criteria
+
+Testing will be considered complete when:
+All critical test cases are passed
+Major defects are resolved
+System performance is acceptable
+System is stable and reliable
+User/client approval is obtained
