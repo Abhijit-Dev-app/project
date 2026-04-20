@@ -13,8 +13,8 @@
 | Actual Output | Error displayed |
 | Result | Pass |
 
-### 
-![WB-01](images/Screenshot (236).png)
+### Result
+![WB-01](images/Screenshot%20(236).png)
 
 ---
 
@@ -29,8 +29,8 @@
 | Actual Output | Login successful |
 | Result | Pass |
 
-### 
-![WB-02](images/Screenshot (237).png)
+### Result
+![WB-02](images/Screenshot%20(237).png)
 
 ---
 
@@ -45,8 +45,8 @@
 | Actual Output | Comments updated and shown in the existing ticket |
 | Result | Pass |
 
-### 
-![WB-03](images/Screenshot (238).png)
+### Result
+![WB-03](images/Screenshot%20(238).png)
 
 ---
 
@@ -61,9 +61,9 @@
 | Actual Output | Status shown as Closed |
 | Result | Pass |
 
-### 
-![WB-04](images/Screenshot (239).png)
-![WB-04](images/Screenshot (240).png)
+### Result
+![WB-04](images/Screenshot%20(239).png)
+
 ---
 
 ## Test Case 5: Edit Playbook (Description)
@@ -77,8 +77,8 @@
 | Actual Output | Updated description displayed |
 | Result | Pass |
 
-### 
-![WB-05](images/Screenshot (241).png)
+### Result
+![WB-05](images/Screenshot%20(241).png)
 
 ---
 
@@ -93,8 +93,8 @@
 | Actual Output | Updated actions displayed |
 | Result | Pass |
 
-### 
-![WB-06](images/Screenshot (242).png)
+### Result
+![WB-06](images/Screenshot%20(242).png)
 
 ---
 
@@ -109,8 +109,8 @@
 | Actual Output | Playbook displayed in dashboard |
 | Result | Pass |
 
-### 
-![WB-07](images/Screenshot (243).png)
+### Result
+![WB-07](images/Screenshot%20(243).png)
 
 ---
 
@@ -126,7 +126,7 @@
 | Result | Pass |
 
 ### 
-![WB-08](images/Screenshot (244).png)
-
+![WB-08 - Before](images/Screenshot%20(244).png)
+![WB-08 - After](images/Screenshot%20(245).png)
 ---
 
