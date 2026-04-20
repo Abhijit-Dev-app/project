@@ -125,8 +125,8 @@
 | Actual Output | Rule removed from dashboard |
 | Result | Pass |
 
-### 
-![WB-08 - Before](images/Screenshot%20(244).png)
-![WB-08 - After](images/Screenshot%20(245).png)
+### Result
+![WB-08 - Before](images/Screenshot%20(246).png)
+![WB-08 - After](images/Screenshot%20(247).png)
 ---
 
